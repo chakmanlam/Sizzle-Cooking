@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asian Fusion Lab - Community Feed | Sizzle</title>
+  <meta name="description" content="Join Asian Fusion Lab community on Sizzle - explore innovative Asian fusion recipes, cooking techniques, and connect with fellow food creators">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0f0f0f;
+      color: #ffffff;
+      line-height: 1.6;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 240px 1fr 300px;
+      gap: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    /* Left Sidebar */
+    .left-sidebar {
+      position: sticky;
+      top: 20px;
+      height: fit-content;
+    }
+
+    .community-header {
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .community-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
+      margin: 0 auto 15px;
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+    }
+
+    .community-name {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .community-type {
+      font-size: 13px;
+      color: #888;
+    }
+
+    .nav-tabs {
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .nav-tab {
+      display: block;
+      padding: 12px 16px;
+      color: #888;
+      text-decoration: none;
+      border-radius: 8px;
+      margin-bottom: 5px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .nav-tab:hover {
+      background: #252525;
+      color: #fff;
+    }
+
+    .nav-tab.active {
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+      color: #fff;
+    }
+
+    /* Main Feed */
+    .main-feed {
+      max-width: 700px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #ff6b35;
+      text-decoration: none;
+      margin-bottom: 20px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      gap: 12px;
+    }
+
+    .post-composer {
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .composer-input {
+      width: 100%;
+      background: #0f0f0f;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 12px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 14px;
+      margin-bottom: 15px;
+      resize: none;
+    }
+
+    .composer-input:focus {
+      outline: none;
+      border-color: #ff6b35;
+    }
+
+    .composer-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .composer-btn {
+      padding: 10px 16px;
+      border: 1px solid #333;
+      background: #0f0f0f;
+      color: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .composer-btn:hover {
+      border-color: #ff6b35;
+      background: #1a1a1a;
+    }
+
+    .feed-filters {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 5px;
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      color: #888;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: all 0.3s ease;
+    }
+
+    .filter-btn:hover {
+      border-color: #ff6b35;
+      color: #fff;
+    }
+
+    .filter-btn.active {
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+      border-color: transparent;
+      color: #fff;
+    }
+
+    .post-card {
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .post-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .post-info {
+      flex: 1;
+    }
+
+    .post-author {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 2px;
+    }
+
+    .post-meta {
+      font-size: 13px;
+      color: #888;
+    }
+
+    .post-badge {
+      background: #ff6b35;
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .post-content {
+      margin-bottom: 15px;
+    }
+
+    .post-text {
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 15px;
+      color: #ddd;
+    }
+
+    .video-thumbnail {
+      position: relative;
+      width: 100%;
+      height: 350px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 15px;
+      cursor: pointer;
+    }
+
+    .video-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70px;
+      height: 70px;
+      background: rgba(255, 107, 53, 0.95);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: #fff;
+      transition: all 0.3s ease;
+    }
+
+    .video-thumbnail:hover .play-button {
+      transform: translate(-50%, -50%) scale(1.1);
+      background: rgba(255, 107, 53, 1);
+    }
+
+    .recipe-card {
+      background: #0f0f0f;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 15px;
+    }
+
+    .recipe-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .recipe-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ff6b35;
+    }
+
+    .recipe-toggle {
+      background: none;
+      border: none;
+      color: #ff6b35;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .recipe-toggle:hover {
+      color: #f7931e;
+    }
+
+    .recipe-meta {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .recipe-meta-item {
+      text-align: center;
+    }
+
+    .meta-label {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 5px;
+    }
+
+    .meta-value {
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .recipe-section {
+      margin-bottom: 20px;
+    }
+
+    .recipe-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .recipe-section-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ff6b35;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .recipe-section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .recipe-section li {
+      padding: 8px 0;
+      border-bottom: 1px solid #252525;
+      font-size: 14px;
+      color: #ddd;
+    }
+
+    .recipe-section li:last-child {
+      border-bottom: none;
+    }
+
+    .recipe-section ol {
+      padding-left: 20px;
+    }
+
+    .recipe-section ol li {
+      padding: 10px 0;
+      border-bottom: 1px solid #252525;
+      font-size: 14px;
+      color: #ddd;
+      line-height: 1.6;
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #252525;
+    }
+
+    .action-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: #0f0f0f;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: #888;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .action-btn:hover {
+      border-color: #ff6b35;
+      color: #ff6b35;
+      background: #1a1a1a;
+    }
+
+    .action-btn.active {
+      border-color: #ff6b35;
+      color: #ff6b35;
+    }
+
+    /* Right Sidebar */
+    .right-sidebar {
+      position: sticky;
+      top: 20px;
+      height: fit-content;
+    }
+
+    .sidebar-card {
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ff6b35;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #888;
+    }
+
+    .member-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .member-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .member-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .member-info {
+      flex: 1;
+    }
+
+    .member-name {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .member-role {
+      font-size: 12px;
+      color: #888;
+    }
+
+    .event-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .event-item {
+      padding: 15px;
+      background: #0f0f0f;
+      border-radius: 8px;
+      border-left: 3px solid #ff6b35;
+    }
+
+    .event-date {
+      font-size: 12px;
+      color: #ff6b35;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .event-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .event-time {
+      font-size: 12px;
+      color: #888;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .left-sidebar,
+      .right-sidebar {
+        display: none;
+      }
+
+      .main-feed {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+
+      .recipe-meta {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .video-thumbnail {
+        height: 250px;
+      }
+
+      .post-actions {
+        flex-wrap: wrap;
+      }
+
+      .action-btn {
+        flex: 1;
+        min-width: 120px;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Left Sidebar -->
+    <aside class="left-sidebar">
+      <div class="community-header">
+        <div class="community-icon">🍜</div>
+        <div class="community-name">Asian Fusion Lab</div>
+        <div class="community-type">Private Community</div>
+      </div>
+
+      <nav class="nav-tabs">
+        <a href="#" class="nav-tab active">📱 Feed</a>
+        <a href="#" class="nav-tab">🍳 Recipes</a>
+        <a href="#" class="nav-tab">👥 Members</a>
+        <a href="#" class="nav-tab">ℹ️ About</a>
+      </nav>
+    </aside>
+
+    <!-- Main Feed -->
+    <main class="main-feed">
+      <a href="Sizzle_-_Discover_Cooking_Communities.html" class="back-link">← Back to Communities</a>
+
+      <!-- Post Composer -->
+      <div class="post-composer">
+        <textarea class="composer-input" rows="3" placeholder="Share your cooking creations..."></textarea>
+        <div class="composer-actions">
+          <button class="composer-btn">🎥 Video</button>
+          <button class="composer-btn">📷 Photo</button>
+          <button class="composer-btn">📝 Recipe</button>
+        </div>
+      </div>
+
+      <!-- Feed Filters -->
+      <div class="feed-filters">
+        <button class="filter-btn active">All Posts</button>
+        <button class="filter-btn">Videos</button>
+        <button class="filter-btn">Questions</button>
+        <button class="filter-btn">Recipes</button>
+      </div>
+
+      <!-- Post 1: Spicy Miso Ramen -->
+      <article class="post-card">
+        <div class="post-header">
+          <div class="post-avatar">KT</div>
+          <div class="post-info">
+            <div class="post-author">Chef Ken Tanaka</div>
+            <div class="post-meta">2 hours ago • Recipe Video</div>
+          </div>
+          <span class="post-badge">Recipe</span>
+        </div>
+
+        <div class="post-content">
+          <p class="post-text">My take on authentic Japanese ramen with a spicy twist! 🍜🔥 This recipe took me years to perfect. The secret is in the 12-hour broth.</p>
+
+          <div class="video-thumbnail">
+            <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=800&h=600&fit=crop" alt="Spicy Miso Ramen">
+            <div class="play-button">▶</div>
+          </div>
+
+          <div class="recipe-card">
+            <div class="recipe-header">
+              <h3 class="recipe-title">🔥 Spicy Miso Ramen</h3>
+              <button class="recipe-toggle">View Full Recipe ↓</button>
+            </div>
+
+            <div class="recipe-meta">
+              <div class="recipe-meta-item">
+                <div class="meta-label">Prep Time</div>
+                <div class="meta-value">30 min</div>
+              </div>
+              <div class="recipe-meta-item">
+                <div class="meta-label">Cook Time</div>
+                <div class="meta-value">12 hrs</div>
+              </div>
+              <div class="recipe-meta-item">
+                <div class="meta-label">Servings</div>
+                <div class="meta-value">4</div>
+              </div>
+              <div class="recipe-meta-item">
+                <div class="meta-label">Difficulty</div>
+                <div class="meta-value">Hard</div>
+              </div>
+            </div>
+
+            <div class="recipe-section">
+              <h4 class="recipe-section-title">Ingredients</h4>
+              <ul>
+                <li>2 lbs pork bones</li>
+                <li>4 cups chicken stock</li>
+                <li>1/2 cup red miso paste</li>
+                <li>3 tbsp chili oil</li>
+                <li>4 portions fresh ramen noodles</li>
+                <li>4 soft-boiled eggs</li>
+                <li>2 cups bean sprouts</li>
+                <li>4 sheets nori seaweed</li>
+                <li>Green onions, sliced</li>
+              </ul>
+            </div>
+
+            <div class="recipe-section">
+              <h4 class="recipe-section-title">Instructions</h4>
+              <ol>
+                <li>Roast pork bones at 400°F for 30 minutes until golden brown</li>
+                <li>Simmer bones in water for 12 hours to create rich tonkotsu broth</li>
+                <li>Strain broth and mix with chicken stock, miso paste, and chili oil</li>
+                <li>Cook ramen noodles according to package directions</li>
+                <li>Assemble bowls with noodles, broth, soft-boiled eggs, bean sprouts, nori, and green onions</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-actions">
+          <button class="action-btn">🔥 Sizzle It <span>124</span></button>
+          <button class="action-btn">💬 Comment <span>38</span></button>
+          <button class="action-btn">🔖 Save <span>92</span></button>
+        </div>
+      </article>
+
+      <!-- Post 2: Korean BBQ Tacos -->
+      <article class="post-card">
+        <div class="post-header">
+          <div class="post-avatar">SK</div>
+          <div class="post-info">
+            <div class="post-author">Chef Sarah Kim</div>
+            <div class="post-meta">5 hours ago • Recipe Video</div>
+          </div>
+          <span class="post-badge">Recipe</span>
+        </div>
+
+        <div class="post-content">
+          <p class="post-text">Korean meets Mexican in these incredible fusion tacos! 🌮✨ Perfect for your next party or weeknight dinner.</p>
+
+          <div class="video-thumbnail">
+            <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800&h=600&fit=crop" alt="Korean BBQ Tacos">
+            <div class="play-button">▶</div>
+          </div>
+
+          <div class="recipe-card">
+            <div class="recipe-header">
+              <h3 class="recipe-title">🌮 Korean BBQ Tacos</h3>
+              <button class="recipe-toggle">View Full Recipe ↓</button>
+            </div>
+
+            <div class="recipe-meta">
+              <div class="recipe-meta-item">
+                <div class="meta-label">Prep Time</div>
+                <div class="meta-value">20 min</div>
+              </div>
+              <div class="recipe-meta-item">
+                <div class="meta-label">Cook Time</div>
+                <div class="meta-value">15 min</div>
+              </div>
+              <div class="recipe-meta-item">
+                <div class="meta-label">Servings</div>
+                <div class="meta-value">6</div>
+              </div>
+              <div class="recipe-meta-item">
+                <div class="meta-label">Difficulty</div>
+                <div class="meta-value">Easy</div>
+              </div>
+            </div>
+
+            <div class="recipe-section">
+              <h4 class="recipe-section-title">Ingredients</h4>
+              <ul>
+                <li>2 lbs beef short ribs, thinly sliced</li>
+                <li>1/2 cup soy sauce</li>
+                <li>1/4 cup brown sugar</li>
+                <li>3 cloves garlic, minced</li>
+                <li>2 tbsp sesame oil</li>
+                <li>12 small corn tortillas</li>
+                <li>2 cups kimchi, chopped</li>
+                <li>1 cup cilantro</li>
+                <li>Lime wedges</li>
+                <li>Gochujang mayo</li>
+              </ul>
+            </div>
+
+            <div class="recipe-section">
+              <h4 class="recipe-section-title">Instructions</h4>
+              <ol>
+                <li>Marinate beef in soy sauce, brown sugar, garlic, and sesame oil for 2 hours</li>
+                <li>Grill beef over high heat for 2-3 minutes per side</li>
+                <li>Warm tortillas on the grill</li>
+                <li>Assemble tacos with beef, kimchi, cilantro, and gochujang mayo</li>
+                <li>Serve with lime wedges</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-actions">
+          <button class="action-btn active">🔥 Sizzle It <span>89</span></button>
+          <button class="action-btn">💬 Comment <span>24</span></button>
+          <button class="action-btn">🔖 Save <span>67</span></button>
+        </div>
+      </article>
+
+      <!-- Post 3: Thai Basil Fried Rice -->
+      <article class="post-card">
+        <div class="post-header">
+          <div class="post-avatar">MC</div>
+          <div class="post-info">
+            <div class="post-author">Chef Mei Chen</div>
+            <div class="post-meta">1 day ago • Recipe Video</div>
+          </div>
+          <span class="post-badge">Recipe</span>
+        </div>
+
+        <div class="post-content">
+          <p class="post-text">Quick, easy, and absolutely delicious! 🍚🌿 This Thai basil fried rice is my go-to weeknight meal. Ready in 15 minutes!</p>
+
+          <div class="video-thumbnail">
+            <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=800&h=600&fit=crop" alt="Thai Basil Fried Rice">
+            <div class="play-button">▶</div>
+          </div>
+
+          <div class="recipe-card">
+            <div class="recipe-header">
+              <h3 class="recipe-title">🌿 Thai Basil Fried Rice</h3>
+              <button class="recipe-toggle">View Full Recipe ↓</button>
+            </div>
+
+            <div class="recipe-meta">
+              <div class="recipe-meta-item">
+                <div class="meta-label">Prep Time</div>
+                <div class="meta-value">10 min</div>
+              </div>
+              <div class="recipe-meta-item">
+                <div class="meta-label">Cook Time</div>
+                <div class="meta-value">15 min</div>
+              </div>
+              <div class="recipe-meta-item">
+                <div class="meta-label">Servings</div>
+                <div class="meta-value">4</div>
+              </div>
+              <div class="recipe-meta-item">
+                <div class="meta-label">Difficulty</div>
+                <div class="meta-value">Easy</div>
+              </div>
+            </div>
+
+            <div class="recipe-section">
+              <h4 class="recipe-section-title">Ingredients</h4>
+              <ul>
+                <li>4 cups cooked jasmine rice (day-old works best)</li>
+                <li>1 lb chicken breast, diced</li>
+                <li>3 cloves garlic, minced</li>
+                <li>2 Thai chilies, sliced</li>
+                <li>2 cups Thai basil leaves</li>
+                <li>3 tbsp fish sauce</li>
+                <li>2 tbsp soy sauce</li>
+                <li>1 tbsp oyster sauce</li>
+                <li>2 eggs</li>
+                <li>Vegetable oil for cooking</li>
+              </ul>
+            </div>
+
+            <div class="recipe-section">
+              <h4 class="recipe-section-title">Instructions</h4>
+              <ol>
+                <li>Heat wok over high heat with oil, scramble eggs and set aside</li>
+                <li>Stir-fry chicken until cooked through, about 5 minutes</li>
+                <li>Add garlic and chilies, cook for 30 seconds until fragrant</li>
+                <li>Add rice and break up any clumps, stir-fry for 3 minutes</li>
+                <li>Add fish sauce, soy sauce, and oyster sauce, mix well</li>
+                <li>Toss in Thai basil and scrambled eggs, cook for 1 minute</li>
+                <li>Serve immediately with lime wedges</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-actions">
+          <button class="action-btn">🔥 Sizzle It <span>156</span></button>
+          <button class="action-btn">💬 Comment <span>42</span></button>
+          <button class="action-btn active">🔖 Save <span>103</span></button>
+        </div>
+      </article>
+    </main>
+
+    <!-- Right Sidebar -->
+    <aside class="right-sidebar">
+      <!-- Community Stats -->
+      <div class="sidebar-card">
+        <h3 class="sidebar-title">Community Stats</h3>
+        <div class="stat-grid">
+          <div class="stat-item">
+            <div class="stat-value">3.8k</div>
+            <div class="stat-label">Members</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">220+</div>
+            <div class="stat-label">Recipes</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">142</div>
+            <div class="stat-label">Active Today</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">4.8★</div>
+            <div class="stat-label">Rating</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Featured Members -->
+      <div class="sidebar-card">
+        <h3 class="sidebar-title">Featured Members</h3>
+        <div class="member-list">
+          <div class="member-item">
+            <div class="member-avatar">KT</div>
+            <div class="member-info">
+              <div class="member-name">Chef Ken Tanaka</div>
+              <div class="member-role">Ramen Master</div>
+            </div>
+          </div>
+          <div class="member-item">
+            <div class="member-avatar">SK</div>
+            <div class="member-info">
+              <div class="member-name">Chef Sarah Kim</div>
+              <div class="member-role">Fusion Expert</div>
+            </div>
+          </div>
+          <div class="member-item">
+            <div class="member-avatar">MC</div>
+            <div class="member-info">
+              <div class="member-name">Chef Mei Chen</div>
+              <div class="member-role">Thai Cuisine</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upcoming Events -->
+      <div class="sidebar-card">
+        <h3 class="sidebar-title">Upcoming Events</h3>
+        <div class="event-list">
+          <div class="event-item">
+            <div class="event-date">Nov 15, 2025</div>
+            <div class="event-title">Live Ramen Workshop</div>
+            <div class="event-time">7:00 PM EST</div>
+          </div>
+          <div class="event-item">
+            <div class="event-date">Nov 22, 2025</div>
+            <div class="event-title">Dumpling Challenge</div>
+            <div class="event-time">6:00 PM EST</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</body>
+</html>

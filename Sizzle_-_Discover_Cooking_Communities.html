@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sizzle - Discover Cooking Communities</title>
+  <meta name="description" content="Join cooking communities or create your own. Learn recipes, share your culinary creations, and connect with food lovers worldwide.">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #0f0f0f;
+      color: #ffffff;
+      line-height: 1.6;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      background: rgba(15, 15, 15, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #2a2a2a;
+      padding: 16px 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #b0b0b0;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #ffffff;
+    }
+
+    .btn-signup {
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+      color: white;
+      padding: 10px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-signup:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+    }
+
+    .hero {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 80px 24px 60px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 56px;
+      font-weight: 900;
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+
+    .hero p {
+      font-size: 20px;
+      color: #b0b0b0;
+      margin-bottom: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+      color: white;
+      padding: 16px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 18px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(255, 107, 53, 0.4);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: white;
+      padding: 16px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 18px;
+      border: 2px solid #2a2a2a;
+      transition: border-color 0.2s, background 0.2s;
+      display: inline-block;
+    }
+
+    .btn-secondary:hover {
+      border-color: #ff6b35;
+      background: rgba(255, 107, 53, 0.1);
+    }
+
+    .filters {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px 32px;
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-btn {
+      background: #1a1a1a;
+      color: #b0b0b0;
+      padding: 10px 20px;
+      border-radius: 20px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+      color: white;
+    }
+
+    .communities {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .communities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .community-card {
+      background: #1a1a1a;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .community-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 40px rgba(255, 107, 53, 0.2);
+    }
+
+    .card-image {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-image::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      background: linear-gradient(to top, rgba(26, 26, 26, 1), transparent);
+    }
+
+    .card-rank {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(255, 107, 53, 0.95);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      z-index: 1;
+    }
+
+    .card-content {
+      padding: 20px;
+    }
+
+    .card-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .card-description {
+      color: #b0b0b0;
+      font-size: 14px;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+      border-top: 1px solid #2a2a2a;
+    }
+
+    .card-members {
+      color: #b0b0b0;
+      font-size: 14px;
+    }
+
+    .card-price {
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .cta-section {
+      max-width: 800px;
+      margin: 0 auto 80px;
+      padding: 60px 24px;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(247, 147, 30, 0.1) 100%);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 107, 53, 0.2);
+    }
+
+    .cta-section h2 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .cta-section p {
+      color: #b0b0b0;
+      font-size: 18px;
+      margin-bottom: 32px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 24px;
+      border-top: 1px solid #2a2a2a;
+      color: #666;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 36px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .communities-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        gap: 16px;
+      }
+
+      .nav-links a:not(.btn-signup) {
+        display: none;
+      }
+
+      .cta-section h2 {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <div class="logo">🔥 Sizzle</div>
+      <div class="nav-links">
+        <a href="#communities">Discover</a>
+        <a href="#about">About</a>
+        <a href="Create_Your_Cooking_Community___Sizzle.html" class="btn-signup">Create Community</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>Discover Cooking Communities</h1>
+    <p>Join passionate chefs and home cooks sharing recipes, techniques, and culinary adventures. Or create your own community.</p>
+    <div class="hero-buttons">
+      <a href="Create_Your_Cooking_Community___Sizzle.html" class="btn-primary">Start Cooking 🔥</a>
+      <a href="#communities" class="btn-secondary">Browse Communities</a>
+    </div>
+  </section>
+
+  <div class="filters">
+    <button class="filter-btn active">All</button>
+    <button class="filter-btn">🇮🇹 Italian</button>
+    <button class="filter-btn">🍜 Asian</button>
+    <button class="filter-btn">🥗 Healthy</button>
+    <button class="filter-btn">🍰 Desserts</button>
+    <button class="filter-btn">🥩 BBQ & Grilling</button>
+    <button class="filter-btn">🌮 Mexican</button>
+    <button class="filter-btn">🍞 Baking</button>
+    <button class="filter-btn">🌱 Vegan</button>
+  </div>
+
+  <section class="communities" id="communities">
+    <div class="communities-grid">
+      <a href="italian-pasta-masters.html" class="community-card">
+        <div class="card-image">
+          <span class="card-rank">#1</span>
+          <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=800&q=80" alt="Italian Pasta">
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">Italian Pasta Masters</h3>
+          <p class="card-description">Master authentic Italian pasta from scratch with Chef Maria. Learn traditional techniques passed down through generations. 🍝</p>
+          <div class="card-meta">
+            <span class="card-members">2.4k Members</span>
+            <span class="card-price">$19/month</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="Asian_Fusion_Lab_-_Community_Feed___Sizzle.html" class="community-card">
+        <div class="card-image">
+          <span class="card-rank">#2</span>
+          <img src="https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=800&q=80" alt="Asian Fusion">
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">Asian Fusion Lab</h3>
+          <p class="card-description">Explore innovative Asian fusion recipes where tradition meets creativity. Ramen, dumplings, and modern twists. 🍜</p>
+          <div class="card-meta">
+            <span class="card-members">3.8k Members</span>
+            <span class="card-price">$21/month</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="community-card">
+        <div class="card-image">
+          <span class="card-rank">#3</span>
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80" alt="Salad">
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">Plant-Based Kitchen</h3>
+          <p class="card-description">Delicious vegan recipes that even meat-lovers crave. Healthy, sustainable, and incredibly flavorful. 🌱</p>
+          <div class="card-meta">
+            <span class="card-members">3.2k Members</span>
+            <span class="card-price">Free</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="community-card">
+        <div class="card-image">
+          <span class="card-rank">#4</span>
+          <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&q=80" alt="Pancakes">
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">Artisan Bread Bakers</h3>
+          <p class="card-description">From sourdough starters to perfect croissants. Join our community of passionate bread bakers. 🥖</p>
+          <div class="card-meta">
+            <span class="card-members">1.5k Members</span>
+            <span class="card-price">$15/month</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="community-card">
+        <div class="card-image">
+          <span class="card-rank">#5</span>
+          <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&q=80" alt="Sushi">
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">Sushi & Japanese Cuisine</h3>
+          <p class="card-description">Learn authentic Japanese cooking from Tokyo-trained chefs. Sushi, ramen, and beyond. 🍣</p>
+          <div class="card-meta">
+            <span class="card-members">2.1k Members</span>
+            <span class="card-price">$29/month</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="community-card">
+        <div class="card-image">
+          <span class="card-rank">#6</span>
+          <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=800&q=80" alt="Dessert">
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">Pastry & Dessert Lab</h3>
+          <p class="card-description">Master the art of pastry with professional techniques. Cakes, tarts, and French patisserie. 🍰</p>
+          <div class="card-meta">
+            <span class="card-members">1.9k Members</span>
+            <span class="card-price">$22/month</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="community-card">
+        <div class="card-image">
+          <span class="card-rank">#7</span>
+          <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800&q=80" alt="Tacos">
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">Authentic Mexican Kitchen</h3>
+          <p class="card-description">Traditional Mexican recipes from family kitchens. Tacos, moles, and regional specialties. 🌮</p>
+          <div class="card-meta">
+            <span class="card-members">1.6k Members</span>
+            <span class="card-price">$18/month</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="community-card">
+        <div class="card-image">
+          <span class="card-rank">#8</span>
+          <img src="https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=800&q=80" alt="Salad Bowl">
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">30-Minute Meals</h3>
+          <p class="card-description">Quick, delicious recipes for busy people. No compromise on flavor or nutrition. ⚡</p>
+          <div class="card-meta">
+            <span class="card-members">4.1k Members</span>
+            <span class="card-price">Free</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="community-card">
+        <div class="card-image">
+          <span class="card-rank">#9</span>
+          <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80" alt="Food Prep">
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">Meal Prep Masters</h3>
+          <p class="card-description">Efficient meal planning and batch cooking strategies. Save time and eat better all week. 📦</p>
+          <div class="card-meta">
+            <span class="card-members">2.7k Members</span>
+            <span class="card-price">$12/month</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <h2>Ready to Share Your Recipes?</h2>
+    <p>Create your own cooking community and connect with food lovers worldwide</p>
+    <a href="Create_Your_Cooking_Community___Sizzle.html" class="btn-primary">Create Your Community</a>
+  </section>
+
+  <footer>
+    <p>© 2024 Sizzle. Where cooking is the only content.</p>
+  </footer>
+</body>
+</html>
